@@ -1,0 +1,38 @@
+{
+    "0": {
+        "voornaam": "Rune",
+        "naam": "Samyn",
+        "job": "student",
+        "tel": "123456789"
+
+    },
+    "1": {
+        "voornaam": "Jan",
+        "naam": "Jansens",
+        "job": "slager",
+        "tel": "888888888"
+
+    },
+    "2": {
+        "voornaam": "Piet",
+        "naam": "Petersens",
+        "job": "Dokter",
+        "tel": "987654321"
+
+    },
+    "3": {
+        "voornaam": "Tom",
+        "naam": "Degroote",
+        "job": "Advocaat",
+        "tel": "112233445"
+
+    },
+    "4": {
+        "voornaam": "Steven",
+        "naam": "Degendt",
+        "job": "Verkoper",
+        "tel": "468452687"
+
+    }
+
+}
