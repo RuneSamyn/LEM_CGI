@@ -2,53 +2,64 @@
 #include <string.h>
 #include <stdlib.h>
 
-/* Print a basic HTTP header. */
+#define MAXLEN 80
+#define EXTRA 5
+/* 4 for field name "data", 1 for "=" */
+#define MAXINPUT MAXLEN+EXTRA+2
+/* 1 for added line break, 1 for trailing NUL */
+#define DATAFILE "data.txt"
 
-static void
-print_http_header (const char * content_type)
+
+void 
+unencode(char *src, char *last, char *dest)
 {
-    printf ("Content-Type: %s\n\n", content_type);
+ for(; src != last; src++, dest++)
+   if(*src == '+')
+     *dest = ' ';
+   else if(*src == '%') {
+     int code;
+     if(sscanf(src+1, "%2x", &code) != 1) code = '?';
+     *dest = code;
+     src +=2; }     
+   else
+     *dest = *src;
+ *dest = '\n';
+ *++dest = '\0';
 }
 
-static void
-include_stylesheet (const char * filePath)
-{
-    printf("<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\">\n", filePath);
-}
-
-static void
-include_script (const char * filePath)
-{
-    printf("<script src=\"%s\"></script>\n", filePath);
+int
+printFile(FILE *f) {
+  int c;
+  if(f != NULL) {
+    while ((c = getc(f)) != EOF)
+      printf("%c", c);
+    fclose(f);
+  }
 }
 
 int 
 main ()
 {
-    int i;
-    print_http_header ("text/html");
-    include_stylesheet("https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css");
-    include_script("https://code.jquery.com/jquery-3.2.1.slim.min.js");
-    include_script("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js");
-    include_script("https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.js");
-    printf("<h1>Environment variables</h1>\n");
-    printf("<div class=\"container\">\n");
-    printf("<table class=\"table\">\n");
-    printf("<thead><tr>\n");
-    printf("<th scope=\"col\">#</th>\n");
-    printf("<th scope=\"col\">Voornaam</th>\n");
-    printf("<th scope=\"col\">Naam</th>\n");
-    printf("<th scope=\"col\">Job</th>\n");
-    printf("<th scope=\"col\">tel nr</th>\n");
-    printf("</tr></thead>\n");
-    for (i = 0; i <5; i++) {
-        printf("<th scope=\"row\">%d</th>\n", i);
-        printf ("<td></td>\n");
-        printf ("<td></td>\n");
-        printf ("<td></td>\n");
-        printf ("<td></td><tr>\n");
-    }
-    printf ("</table>");
-    printf("</div>");
+    printf("Content-type: text/html\n\n");
+    FILE *html = fopen("/usr/lib/cgi-bin/index.html", "r");
+    printFile(html);
+    // char *lenstr;
+    // char input[MAXINPUT], data[MAXINPUT];
+    // long len;
+    // lenstr = getenv("CONTENT_LENGTH");
+    // if(lenstr == NULL || sscanf(lenstr,"%ld",&len)!=1 || len > MAXLEN)
+    //     printf("<P>No post request.</p>");
+    // else {
+    //     FILE *f;
+    //     fgets(input, len+1, stdin);
+    //     unencode(input+EXTRA, input+len, data);
+    //     f = fopen(DATAFILE, "a");
+    //     if(f == NULL)
+    //         printf("<P>Sorry, cannot store your data.");
+    //     else
+    //         fputs(data, f);
+    //     fclose(f);
+    //     printf("<P>Thank you! Your contribution has been stored.");
+    // }
     return 0;
 }
