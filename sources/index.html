@@ -25,42 +25,9 @@
                     <th scope="col">telefoon nummer</th>
                 </tr>
             </thead>
-            <tr>
-                <th scope="row">0</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table><br><br>
+        </table>
+        <br>
+        <br>
         <form action="/cgi-bin/OpdrachtCGI" method="post">
             <table class="table">
                 <tr>
@@ -87,9 +54,31 @@
         </form>
     </div>
     <script>
-        fetch('http://rpi-rsamyn/cgi-bin/personsList.json')
+        fetch('http://rpi-rsamyn/personsList.json')
         .then(response => response.json())
-        .then(data => console.log(data));
+        .then(data => {
+            console.log(data);
+            for(element in data){
+                var row = document.createElement("tr");
+                var nr = document.createElement("th");
+                nr.innerText = element;
+                var vnaam = document.createElement("td");
+                vnaam.innerText = data[element].voornaam;
+                var naam = document.createElement("td");
+                naam.innerText = data[element].naam;
+                var job = document.createElement("td");
+                job.innerText = data[element].job;
+                var tel_nr = document.createElement("td");
+                tel_nr.innerText = data[element].tel;
+                row.appendChild(nr);
+                row.appendChild(vnaam)
+                row.appendChild(naam)
+                row.appendChild(job)
+                row.appendChild(tel_nr)
+                var table = document.getElementsByClassName("table");
+                table[0].appendChild(row);
+            };
+        });
     </script>
 </body>
 
