@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+    <title>Opdracht CGI</title>
+</head>
+
+<body>
+    <h1>Environment variables</h1>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Voornaam</th>
+                    <th scope="col">Naam</th>
+                    <th scope="col">Job</th>
+                    <th scope="col">telefoon nummer</th>
+                </tr>
+            </thead>
+            <tr>
+                <th scope="row">0</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">1</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br><br>
+        <form action="/cgi-bin/OpdrachtCGI" method="post">
+            <table class="table">
+                <tr>
+                    <th scope="row">Voornaam</th>
+                    <td><input type='text'></input></td>
+                </tr>
+                <tr>
+                    <th scope="row">Naam</th>
+                    <td><input type='text'></input></td>
+                </tr>
+                <tr>
+                    <th scope="row">Job</th>
+                    <td><input type='text'></input></td>
+                </tr>
+                <tr>
+                    <th scope="row">Telefoon nummer</th>
+                    <td><input type='text'></input></td>
+                </tr>
+                <tr>
+                    <th scope="row">Submit</th>
+                    <td><input type='submit'></input></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+        fetch('http://rpi-rsamyn/cgi-bin/personsList.json')
+        .then(response => response.json())
+        .then(data => console.log(data));
+    </script>
+</body>
+
+</html>
