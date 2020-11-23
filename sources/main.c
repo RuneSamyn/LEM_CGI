@@ -73,7 +73,7 @@ int post_handler()
   char *lenstr;
   long len;
   lenstr = getenv("CONTENT_LENGTH");
-  if (lenstr == NULL || sscanf(lenstr, "%ld", &len) != 1 || MAXLEN > 1000)
+  if (lenstr == NULL || sscanf(lenstr, "%ld", &len) != 1 || MAXLEN > len)
   {
     return 0;
   }
