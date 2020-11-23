@@ -1,32 +1,7 @@
-[
-    {
+[{
         "voornaam": "Rune",
         "naam": "Samyn",
         "job": "student",
-        "tel": "123456789"
-    },
-    {
-        "voornaam": "Jan",
-        "naam": "Jansens",
-        "job": "slager",
-        "tel": "888888888"
-    },
-    {
-        "voornaam": "Piet",
-        "naam": "Petersens",
-        "job": "Dokter",
-        "tel": "987654321"
-    },
-    {
-        "voornaam": "Tom",
-        "naam": "Degroote",
-        "job": "Advocaat",
-        "tel": "112233445"
-    },
-    {
-        "voornaam": "Steven",
-        "naam": "Degendt",
-        "job": "Verkoper",
-        "tel": "468452687"
-    }
-]
+        "tel": "123456789",
+        "time": 1606124597
+    }]

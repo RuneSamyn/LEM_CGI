@@ -4,7 +4,6 @@
 #include <time.h>
 
 #define MAXLEN 600
-#define MAXINPUT 600
 
 struct Persoon
 {
@@ -80,7 +79,6 @@ int post_handler()
   lenstr = getenv("CONTENT_LENGTH");
   if (lenstr == NULL || sscanf(lenstr, "%ld", &len) != 1 || MAXLEN > 1000)
   {
-    printf("<P>No post request.</p>");
     return 0;
   }
   char input[len];
@@ -99,26 +97,40 @@ int post_handler()
   cpy = strdup(input);
   strcpy(p.Tel, findInString(cpy, (char*)"tel"));
   p.TimeStamp = (int)time(NULL);
-  printf("<P>Thank you! Your contribution has been stored.");
+  FILE *f1 = fopen("/var/www/html/personsList.json", "r");
+  FILE *f2 = fopen("/var/www/html/personsList.json.temp", "w");
+  if(f1 == NULL || f2 == NULL)
+    return 0;
+  else {
+    int c;
+    while ((c = getc(f1)) != EOF){  //copy file and add new person at end of list
+      if(c != ']') {
+        putc(c, f2);
+      } else {
+        // write person to file
+        char text[170];
+        snprintf(text, 170,",\r\n    {\r\n\t\"voornaam\": \"%s\",\r\n\t\"naam\": \"%s\",\r\n\t\"job\": \"%s\",\r\n\t\"tel\": \"%s\",\r\n\t\"time\": %ld\r\n    }]\r\n", p.Voornaam, p.Naam, p.Job, p.Tel, p.TimeStamp);
+        fputs(text, f2);
+        break;
+      }
+    }
+  }
+  fclose(f1);
+  fclose(f2);
+  if(remove("/var/www/html/personsList.json") != 0) {
+    printf("<P>Error deleting file.");
+  }
+  if(rename("/var/www/html/personsList.json.temp", "/var/www/html/personsList.json") != 0) {
+    printf("<P>Error renaming file.");
+  }
   return 0;
 }
 
 int main()
 {
   print_http_header("text/html");
+  post_handler();
   FILE *html = fopen("/usr/lib/cgi-bin/index.html", "r");
   printFile(html);
-  post_handler();
-  // char input[600] = "hallo name=\"voornaam\"\r\n\r\nRune\r\n-----------";
-  // char naam[10] = "voornaam";
-  // findInString(input, naam);
-  
-  FILE *f = fopen("/var/www/html/test.json", "a");
-  if(f == NULL)
-      printf("<P>Sorry, cannot store your data.");
-  else
-    fputs("hello world", f);
-    printf("hello world");
-  fclose(f);
   return 0;
 }
