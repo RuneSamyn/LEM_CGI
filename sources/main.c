@@ -54,7 +54,7 @@ char *findInString(char in[600], char name[10])
   return NULL;
 }
 
-struct Persoon tekstToPersoon(char *input) {
+struct Persoon stringToPersoon(char *input) {
   struct Persoon p;
   char *cpy = strdup(input);
   strcpy(p.Voornaam, findInString(cpy, (char*)"voornaam"));
@@ -81,7 +81,7 @@ int post_handler()
   int i = 0;
   while (i <= len)    // read the post data
     input[i++] = getc(stdin);
-  struct Persoon p = textToPersoon(input);
+  struct Persoon p = stringToPersoon(input);
   FILE *f1 = fopen("/var/www/html/personsList.json", "r");
   FILE *f2 = fopen("/var/www/html/personsList.json.temp", "w");
   if(f1 == NULL || f2 == NULL)
