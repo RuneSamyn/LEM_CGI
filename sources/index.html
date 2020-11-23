@@ -28,29 +28,16 @@
         </table>
         <br>
         <br>
-        <form action="/cgi-bin/OpdrachtCGI" method="post">
-            <table class="table">
-                <tr>
-                    <th scope="row">Voornaam</th>
-                    <td><input type='text'></input></td>
-                </tr>
-                <tr>
-                    <th scope="row">Naam</th>
-                    <td><input type='text'></input></td>
-                </tr>
-                <tr>
-                    <th scope="row">Job</th>
-                    <td><input type='text'></input></td>
-                </tr>
-                <tr>
-                    <th scope="row">Telefoon nummer</th>
-                    <td><input type='text'></input></td>
-                </tr>
-                <tr>
-                    <th scope="row">Submit</th>
-                    <td><input type='submit'></input></td>
-                </tr>
-            </table>
+        <form action="/cgi-bin/OpdrachtCGI" enctype="multipart/form-data" method="POST">
+            <label for="voornaam">Voornaam:</label>
+            <input type="text" id="voornaam" name="voornaam"><br><br>
+            <label for="naam">Naam:</label>
+            <input type="text" id="naam" name="naam"><br><br>
+            <label for="job">Job:</label>
+            <input type="text" id="job" name="job"><br><br>
+            <label for="tel">Telefoon:</label>
+            <input type="text" id="tel" name="tel"><br><br>
+            <input type="submit" value="Submit">
         </form>
     </div>
     <script>
