@@ -19,24 +19,6 @@ static void print_http_header(const char *content_type)
   printf("Content-Type: %s\n\n", content_type);
 }
 
-void unencode(char *src, char *last, char *dest)
-{
-  for (; src != last; src++, dest++)
-    if (*src == '+')
-      *dest = ' ';
-    else if (*src == '%')
-    {
-      int code;
-      if (sscanf(src + 1, "%2x", &code) != 1)
-        code = '?';
-      *dest = code;
-      src += 2;
-    }
-    else
-      *dest = *src;
-  *dest = '\n';
-  *++dest = '\0';
-}
 
 int printFile(FILE *f)
 {
@@ -72,6 +54,20 @@ char *findInString(char in[600], char name[10])
   return NULL;
 }
 
+struct Persoon tekstToPersoon(char *input) {
+  struct Persoon p;
+  char *cpy = strdup(input);
+  strcpy(p.Voornaam, findInString(cpy, (char*)"voornaam"));
+  cpy = strdup(input);
+  strcpy(p.Naam, findInString(cpy, (char*)"naam"));
+  cpy = strdup(input);
+  strcpy(p.Job, findInString(cpy, (char*)"job"));
+  cpy = strdup(input);
+  strcpy(p.Tel, findInString(cpy, (char*)"tel"));
+  p.TimeStamp = (int)time(NULL);
+  return p;
+}
+
 int post_handler()
 {
   char *lenstr;
@@ -85,18 +81,7 @@ int post_handler()
   int i = 0;
   while (i <= len)    // read the post data
     input[i++] = getc(stdin);
-  struct Persoon p;
-  // strcpy(p.Voornaam, "Rune");
-  // printf(p.Voornaam);
-  char *cpy = strdup(input);
-  strcpy(p.Voornaam, findInString(cpy, (char*)"voornaam"));
-  cpy = strdup(input);
-  strcpy(p.Naam, findInString(cpy, (char*)"naam"));
-  cpy = strdup(input);
-  strcpy(p.Job, findInString(cpy, (char*)"job"));
-  cpy = strdup(input);
-  strcpy(p.Tel, findInString(cpy, (char*)"tel"));
-  p.TimeStamp = (int)time(NULL);
+  struct Persoon p = textToPersoon(input);
   FILE *f1 = fopen("/var/www/html/personsList.json", "r");
   FILE *f2 = fopen("/var/www/html/personsList.json.temp", "w");
   if(f1 == NULL || f2 == NULL)
